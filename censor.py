@@ -79,17 +79,16 @@ def main(argv):
                     sess.run(model.predictions,
                         feed_dict={model.input: image})
                 if(predictions[0][1]<=0.20):
-                    print(predictions[0][1])
                     out.write(frame)
                 else:
                     frameNsfw= frameNsfw+1
 
 #print("\tSFW score:\t{}\n\tNSFW score:\t{}".format(*predictions[0]))
         if(frameNsfw>0):
-            print("contain sexuall content")
+            print("Contain NSFW")
         else:
-            print("safe")
-        print((frameNsfw/frameTotal)*100)
+            print("SFW")
+        print("DONE")
         cap.release()
         out.release()
         

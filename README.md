@@ -9,7 +9,7 @@ The original caffe weights have been extracted using [Caffe to TensorFlow](https
 All code should be compatible with `Python 3.6` and `Tensorflow 1.x` (tested with 1.12). The model implementation can be found in `model.py`.
 
 ### Usage
-
+#### Images
 ```
 > python classify_nsfw.py -m data/open_nsfw-weights.npy test.jpg
 
@@ -19,6 +19,24 @@ Results for 'test.jpg'
 ```
 
 __Note:__ Currently only jpeg images are supported.
+
+#### Video
+```
+> python classify_nsfw_video.py -m data/open_nsfw-weights.npy video.mp4
+
+Results for 'video.mp4'
+Contain NSFW
+NSFW % = 57.89473684210527
+```
+__Note:__ Current threshold is set to 20%  but you can change it in line 78 of classify_nsfw_video.py
+#### Censor
+```
+> python censor.py -m data/open_nsfw-weights.npy video.mp4
+
+This command removes frames from videos that contain nsfw content and output file temp.avi .
+
+```
+__Note:__ Current threshold is set to 20%  but you can change it in line 81 of censor.py
 
 `classify_nsfw.py` accepts some optional parameters you may want to play around with:
 

@@ -82,9 +82,9 @@ def main(argv):
 
         cap.release()
         if(frameNsfw>0):
-            print("contain sexuall content")
+            print("Contain NSFW")
         else:
-            print("safe")
-    print((frameNsfw/frameTotal)*100)
+            print("SFW")
+    print("NSFW % = "+str((frameNsfw/frameTotal)*100))
 if __name__ == "__main__":
     main(sys.argv)
