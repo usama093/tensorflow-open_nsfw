@@ -4,6 +4,8 @@ This repository contains an implementation of [Yahoo's Open NSFW Classifier](htt
 
 The original caffe weights have been extracted using [Caffe to TensorFlow](https://github.com/ethereon/caffe-tensorflow). You can find them at `data/open_nsfw-weights.npy`.
 
+This works for both Images and Videos.
+
 ## Prerequisites
 
 All code should be compatible with `Python 3.6` and `Tensorflow 1.x` (tested with 1.12). The model implementation can be found in `model.py`.
@@ -36,7 +38,7 @@ __Note:__ Current threshold is set to 20%  but you can change it in line 78 of c
 This command removes frames from videos that contain nsfw content and output file temp.avi .
 
 ```
-__Note:__ Current threshold is set to 20%  but you can change it in line 81 of censor.py
+__Note:__ Currently only one frame per second is picked for optimization purpose. Current threshold is set to 20%  but you can change it in line 81 of censor.py
 
 `classify_nsfw.py` accepts some optional parameters you may want to play around with:
 
