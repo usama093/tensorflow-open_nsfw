@@ -15,7 +15,8 @@ import numpy as np
 
 IMAGE_LOADER_TENSORFLOW = "tensorflow"
 IMAGE_LOADER_YAHOO = "yahoo"
-
+flag = 0
+frame_skip = 0
 
 def main(argv):
     parser = argparse.ArgumentParser()
@@ -67,28 +68,38 @@ def main(argv):
         height, width, nchannels = frame.shape
         fourcc = cv2.VideoWriter_fourcc(*'MJPG')
         out = cv2.VideoWriter( outfilename,fourcc, math.floor(frameRate), (width,height))
+        global flag
+        global frame_skip
         while(True):
             ret, frame = cap.read()
             if (ret != True):
                 break
             else:
-                cv2.imwrite('./images/temp.jpg', frame)
-                image = fn_load_image('./images/temp.jpg')
-                frameTotal= frameTotal+1
-                predictions = \
-                    sess.run(model.predictions,
-                        feed_dict={model.input: image})
-                if(predictions[0][1]<=0.20):
-                    out.write(frame)
+                if(flag):
+                    frame_skip = frame_skip + 1
+                    if(frame_skip == 30):
+                        frame_skip = 0
+                        flag = 0
                 else:
-                    frameNsfw= frameNsfw+1
+                    cv2.imwrite('./images/temp.jpg', frame)
+                    image = fn_load_image('./images/temp.jpg')
+                    frameTotal= frameTotal+1
+                    predictions = \
+                        sess.run(model.predictions,
+                                 feed_dict={model.input: image})
+                    if(predictions[0][1]<=0.30):
+                        out.write(frame)
+                    else:
+                        print(predictions[0][1])
+                        flag= 1
+                        frameNsfw= frameNsfw+1
 
 #print("\tSFW score:\t{}\n\tNSFW score:\t{}".format(*predictions[0]))
         if(frameNsfw>0):
-            print("Contain NSFW")
+            print("contain sexuall content")
         else:
-            print("SFW")
-        print("DONE")
+            print("safe")
+        print((frameNsfw/frameTotal)*100)
         cap.release()
         out.release()
         
